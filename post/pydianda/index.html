@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>做个好玩的... | LumosのBlog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://ljy36.github.io/favicon.ico?v=1745119039793">
+<link rel="stylesheet" href="https://ljy36.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+用Python手搓了一个东西
+
+一个小exe
+用Python搓了一个点答器，能够实现点答功能
+单文件直接运行
+目前Version.1，后期添加一些好玩功能（什么时候想到了再加(^ _ ^)）
+代码
+import tkinter as tk..." />
+    <meta name="keywords" content="IT" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://ljy36.github.io">
+        <img src="https://ljy36.github.io/images/avatar.png?v=1745119039793" class="site-logo">
+        <h1 class="site-title">LumosのBlog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/Ljy36" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://x.com/_Lumos36_" target="_blank">
+            <i class="fab fa-twitter"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://www.facebook.com/profile.php?id=100091960971564" target="_blank">
+            <i class="fab fa-facebook"></i>
+          </a>
+        
+      
+    </div>
+    <div class="site-description">
+      至人无己，神人无功，圣人无名
+    </div>
+    <div class="site-footer">
+      LRM.DPDNS.ORG | <a class="rss" href="https://ljy36.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">做个好玩的...</h2>
+            <div class="post-date">2025-02-07</div>
+            
+            <div class="post-content" v-pre>
+              <blockquote>
+<p>用Python手搓了一个东西</p>
+</blockquote>
+<h2 id="一个小exe">一个小exe</h2>
+<p>用Python搓了一个点答器，能够实现点答功能<br>
+单文件直接运行<br>
+目前Version.1，后期添加一些好玩功能（什么时候想到了再加(^ _ ^)）</p>
+<h2 id="代码">代码</h2>
+<pre><code class="language-Python">import tkinter as tk
+import time
+
+def show_names():
+    global running, current_index, selected_name  # 使用全局变量
+
+    running = True  # 设置为运行状态
+    current_index = 0  # 初始化当前索引
+    show_button.config(text=&quot;暂停&quot;) # 修改按钮文字为“暂停”
+    while running: #  循环条件改为 running
+        if current_index &gt;= len(names): #  如果索引超出范围，则重置为0
+            current_index = 0
+        name = names[current_index]
+        result_label.config(text=name)
+        window.update()
+        time.sleep(0.08)
+        current_index += 1
+
+    selected_name = result_label.cget(&quot;text&quot;) # 获取当前选中的名字
+
+def toggle_pause():
+    global running, selected_name, current_index
+
+    running = not running  # 切换运行状态
+    if running:
+        show_button.config(text=&quot;暂停&quot;) # 修改按钮文字为“暂停”
+        show_names() # 继续点名
+    else:
+        show_button.config(text=&quot;继续&quot;) # 修改按钮文字为“开始点名”
+        #  暂停时，停留在当前学生
+        selected_name = result_label.cget(&quot;text&quot;)
+        
+
+def load_names():
+    try:
+        with open(&quot;names.txt&quot;, &quot;r&quot;) as f:
+            for line in f:
+                names.append(line.strip())
+    except FileNotFoundError:
+        pass
+
+names = []
+running = False  # 初始状态为停止
+selected_name = &quot;&quot; # 初始选中名字为空
+current_index = 0 # 当前学生索引
+
+window = tk.Tk()
+window.title(&quot;RollCaller&quot;)
+window.geometry(&quot;300x280&quot;) # 固定窗口大小
+
+lucky_label = tk.Label(window, text=&quot;看看是哪个幸运儿:&quot;, font=(&quot;Arial Baltic&quot;, 16)) # 新增label
+lucky_label.pack(pady=(25, 0)) # 放置在顶部，下方填充0
+
+result_label = tk.Label(window, text=&quot;就你了&quot;, font=(&quot;华文行楷&quot;, 48)) # 修改label文字
+result_label.pack(pady=(30, 0)) # 放置在lucky_label下方
+
+a_label = tk.Label(window, text=&quot;========================&quot;, font=(&quot;Arial Baltic&quot;, 16),fg=&quot;orange&quot;)
+a_label.pack(pady=(0,0))
+
+show_button = tk.Button(window, text=&quot;开始点名&quot;, font=(&quot;Arial Baltic&quot;, 20),command=toggle_pause) # command绑定toggle_pause
+show_button.pack(pady=(20, 0))
+
+lrm_label = tk.Label(window, text=&quot;                             By Lumos.R.M.&quot;, font=(&quot;Arial Baltic&quot;, 10),fg=&quot;gray&quot;)
+lrm_label.pack(pady=(7,0))
+
+
+load_names()
+
+window.mainloop()
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://ljy36.github.io/tag/it/" class="tag">
+                    IT
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://ljy36.github.io/post/helloworld/">
+                  <h3 class="post-title">
+                    Hello World!
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>
