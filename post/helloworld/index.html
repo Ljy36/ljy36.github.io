@@ -1,0 +1,188 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hello World! | LumosのBlog</title>
+<link rel="shortcut icon" href="https://ljy36.github.io/favicon.ico?v=1751782644445">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://ljy36.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Hello World! | LumosのBlog - Atom Feed" href="https://ljy36.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+我的首个博客，2025.02.02正式运行，基于Github Pages。
+
+地址
+博客主页：https://lrm.us.kg
+我的代理：https://x.lrm.us.kg/lrm245
+联系方式
+请转到“关于”页面。
+其他
+别问我..." />
+    <meta name="keywords" content="Lifestyle" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://ljy36.github.io">
+  <img class="avatar" src="https://ljy36.github.io/images/avatar.png?v=1751782644445" alt="">
+  </a>
+  <h1 class="site-title">
+    LumosのBlog
+  </h1>
+  <p class="site-description">
+    至人无己，神人无功，圣人无名
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Hello World!
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-02-02
+              </span>
+              <span>
+                1 min read
+              </span>
+              
+                <a href="https://ljy36.github.io/tag/tag/lifestyle/" class="post-tag">
+                  # Lifestyle
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <blockquote>
+<p>我的首个博客，2025.02.02正式运行，基于Github Pages。</p>
+</blockquote>
+<h2 id="地址">地址</h2>
+<p>博客主页：<a href="https://lrm.us.kg">https://lrm.us.kg</a><br>
+我的代理：<a href="https://x.lrm.us.kg/lrm245">https://x.lrm.us.kg/lrm245</a></p>
+<h2 id="联系方式">联系方式</h2>
+<p>请转到<u>“关于”</u>页面。</p>
+<h2 id="其他">其他</h2>
+<p>别问我怎么搞的，<u>自己查</u>。<br>
+<code>print(&quot;Hello World!&quot;)</code></p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%9C%B0%E5%9D%80">地址</a></li>
+<li><a href="#%E8%81%94%E7%B3%BB%E6%96%B9%E5%BC%8F">联系方式</a></li>
+<li><a href="#%E5%85%B6%E4%BB%96">其他</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+
+        
+
+        <div class="site-footer">
+  UNA.QZZ.IO
+  <a class="rss" href="https://ljy36.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
