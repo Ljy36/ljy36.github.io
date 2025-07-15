@@ -1,0 +1,262 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>做个好玩的... | LumosのBlog</title>
+<link rel="shortcut icon" href="https://ljy36.github.io/favicon.ico?v=1752589012394">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://ljy36.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="做个好玩的... | LumosのBlog - Atom Feed" href="https://ljy36.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+用Python手搓了一个东西
+
+一个小exe
+用Python搓了一个点答器，能够实现点答功能
+单文件直接运行
+目前Version.1，后期添加一些好玩功能（什么时候想到了再加(^ _ ^)）
+代码
+import tkinter as tk..." />
+    <meta name="keywords" content="IT" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://ljy36.github.io">
+  <img class="avatar" src="https://ljy36.github.io/images/avatar.png?v=1752589012394" alt="">
+  </a>
+  <h1 class="site-title">
+    LumosのBlog
+  </h1>
+  <p class="site-description">
+    至人无己，神人无功，圣人无名
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              做个好玩的...
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-02-07
+              </span>
+              <span>
+                3 min read
+              </span>
+              
+                <a href="https://ljy36.github.io/tag/it/" class="post-tag">
+                  # IT
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <blockquote>
+<p>用Python手搓了一个东西</p>
+</blockquote>
+<h2 id="一个小exe">一个小exe</h2>
+<p>用Python搓了一个点答器，能够实现点答功能<br>
+单文件直接运行<br>
+目前Version.1，后期添加一些好玩功能（什么时候想到了再加(^ _ ^)）</p>
+<h2 id="代码">代码</h2>
+<pre><code class="language-Python">import tkinter as tk
+import time
+
+def show_names():
+    global running, current_index, selected_name  # 使用全局变量
+
+    running = True  # 设置为运行状态
+    current_index = 0  # 初始化当前索引
+    show_button.config(text=&quot;暂停&quot;) # 修改按钮文字为“暂停”
+    while running: #  循环条件改为 running
+        if current_index &gt;= len(names): #  如果索引超出范围，则重置为0
+            current_index = 0
+        name = names[current_index]
+        result_label.config(text=name)
+        window.update()
+        time.sleep(0.08)
+        current_index += 1
+
+    selected_name = result_label.cget(&quot;text&quot;) # 获取当前选中的名字
+
+def toggle_pause():
+    global running, selected_name, current_index
+
+    running = not running  # 切换运行状态
+    if running:
+        show_button.config(text=&quot;暂停&quot;) # 修改按钮文字为“暂停”
+        show_names() # 继续点名
+    else:
+        show_button.config(text=&quot;继续&quot;) # 修改按钮文字为“开始点名”
+        #  暂停时，停留在当前学生
+        selected_name = result_label.cget(&quot;text&quot;)
+        
+
+def load_names():
+    try:
+        with open(&quot;names.txt&quot;, &quot;r&quot;) as f:
+            for line in f:
+                names.append(line.strip())
+    except FileNotFoundError:
+        pass
+
+names = []
+running = False  # 初始状态为停止
+selected_name = &quot;&quot; # 初始选中名字为空
+current_index = 0 # 当前学生索引
+
+window = tk.Tk()
+window.title(&quot;RollCaller&quot;)
+window.geometry(&quot;300x280&quot;) # 固定窗口大小
+
+lucky_label = tk.Label(window, text=&quot;看看是哪个幸运儿:&quot;, font=(&quot;Arial Baltic&quot;, 16)) # 新增label
+lucky_label.pack(pady=(25, 0)) # 放置在顶部，下方填充0
+
+result_label = tk.Label(window, text=&quot;就你了&quot;, font=(&quot;华文行楷&quot;, 48)) # 修改label文字
+result_label.pack(pady=(30, 0)) # 放置在lucky_label下方
+
+a_label = tk.Label(window, text=&quot;========================&quot;, font=(&quot;Arial Baltic&quot;, 16),fg=&quot;orange&quot;)
+a_label.pack(pady=(0,0))
+
+show_button = tk.Button(window, text=&quot;开始点名&quot;, font=(&quot;Arial Baltic&quot;, 20),command=toggle_pause) # command绑定toggle_pause
+show_button.pack(pady=(20, 0))
+
+lrm_label = tk.Label(window, text=&quot;                             By Lumos.R.M.&quot;, font=(&quot;Arial Baltic&quot;, 10),fg=&quot;gray&quot;)
+lrm_label.pack(pady=(7,0))
+
+
+load_names()
+
+window.mainloop()
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E4%B8%80%E4%B8%AA%E5%B0%8Fexe">一个小exe</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81">代码</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://ljy36.github.io/post/helloworld/">
+              <h3 class="post-title">
+                Hello World!
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  UNA.QZZ.IO
+  <a class="rss" href="https://ljy36.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
