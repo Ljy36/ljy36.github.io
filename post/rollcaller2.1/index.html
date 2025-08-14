@@ -1,0 +1,252 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>Rollcaller Ver.2.1 | LA CANELA</title>
+
+<link rel="shortcut icon" href="https://ljy36.github.io/favicon.ico?v=1755145601275">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://ljy36.github.io/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            LA CANELA
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="https://ljy36.github.io/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/story" class="menu gt-a-link">
+                            纪事
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1755145601275" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    Rollcaller Ver.2.1
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2025-03-07 ·
+                    </time>
+                    
+                        <a href="https://ljy36.github.io/tag/tag/study/" class="post-tags">
+                            # Study
+                        </a>
+                    
+                        <a href="https://ljy36.github.io/tag/it/" class="post-tags">
+                            # IT
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p>亲爱的用户您好，欢迎体验全新的Rollcaller 2.1!<br>
+本次更新内容：</p>
+<h2 id="本次更新内容">本次更新内容</h2>
+<p>Version 2.1解决了上一代出现重复点名的问题，使用新方式点名。<br>
+推荐您进行更新。</p>
+<h2 id="代码">代码</h2>
+<pre><code class="language-python">import tkinter as tk
+import random
+
+def load_names():
+    &quot;&quot;&quot;从文件中加载名字列表&quot;&quot;&quot;
+    try:
+        with open(&quot;names.txt&quot;, &quot;r&quot;) as f:
+            return [line.strip() for line in f]
+    except FileNotFoundError:
+        return []
+
+def show_name():
+    &quot;&quot;&quot;显示一个随机名字&quot;&quot;&quot;
+    global running, names, selected_names, shuffled_names
+
+    if running:
+        if not shuffled_names: # 如果打乱后的名字列表为空，则重新打乱
+            shuffled_names = names[:] # 创建名字列表的副本
+            random.shuffle(shuffled_names) # 打乱名字列表
+        if shuffled_names:
+            name = shuffled_names.pop(0) # 从打乱后的列表中取出第一个名字
+            selected_names.add(name) # 将选中的名字添加到集合中
+            result_label.config(text=name)
+            window.after(120, show_name)
+        else:
+            running = False
+            show_button.config(text=&quot;开始点名&quot;)
+
+def toggle_pause():
+    &quot;&quot;&quot;切换点名状态&quot;&quot;&quot;
+    global running, selected_names, shuffled_names
+
+    running = not running
+    if running:
+        show_button.config(text=&quot;暂停&quot;)
+        selected_names = set()
+        shuffled_names = [] # 重置打乱后的名字列表
+        show_name()
+    else:
+        show_button.config(text=&quot;继续&quot;)
+
+# 初始化
+names = load_names()
+running = False
+selected_names = set()
+shuffled_names = [] # 初始化打乱后的名字列表
+
+# 创建窗口
+window = tk.Tk()
+window.title(&quot;RollCaller&quot;)
+window.geometry(&quot;300x280&quot;)
+
+# 创建标签和按钮
+lucky_label = tk.Label(window, text=&quot;看看是哪个幸运儿:&quot;, font=(&quot;Arial Baltic&quot;, 16))
+lucky_label.pack(pady=(25, 0))
+
+result_label = tk.Label(window, text=&quot;就你了&quot;, font=(&quot;华文行楷&quot;, 48))
+result_label.pack(pady=(30, 0))
+
+a_label = tk.Label(window, text=&quot;========================&quot;, font=(&quot;Arial Baltic&quot;, 16), fg=&quot;orange&quot;)
+a_label.pack(pady=(0, 0))
+
+show_button = tk.Button(window, text=&quot;开始点名&quot;, font=(&quot;Arial Baltic&quot;, 20), command=toggle_pause)
+show_button.pack(pady=(20, 0))
+
+lrm_label = tk.Label(window, text=&quot;By Lumos.R.M.&quot;, font=(&quot;Arial Baltic&quot;, 10), fg=&quot;gray&quot;)
+lrm_label.pack(pady=(7, 0))
+
+# 运行主循环
+window.mainloop()
+</code></pre>
+<blockquote>
+<p>预告：下一版本将加入新的UI界面。<br>
+使用Python编译。</p>
+</blockquote>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://ljy36.github.io/post/pydianda/" class="post-title gt-a-link">
+                    做个好玩的...
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">To be,or not to be,this is a question.</div>
+    <div class="social-container">
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        LUMOS.R.MORRIS
+UNA.QZZ.IO
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://ljy36.github.io/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

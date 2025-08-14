@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://ljy36.github.io</id>
+    <title>LA CANELA</title>
+    <updated>2025-08-14T04:26:46.805Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://ljy36.github.io"/>
+    <link rel="self" href="https://ljy36.github.io/atom.xml"/>
+    <subtitle>To be,or not to be,this is a question.</subtitle>
+    <logo>https://ljy36.github.io/images/avatar.png</logo>
+    <icon>https://ljy36.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2025, LA CANELA</rights>
+    <entry>
+        <title type="html"><![CDATA[Rollcaller Ver.2.1]]></title>
+        <id>https://ljy36.github.io/post/rollcaller2.1/</id>
+        <link href="https://ljy36.github.io/post/rollcaller2.1/">
+        </link>
+        <updated>2025-03-07T14:32:12.000Z</updated>
+        <content type="html"><![CDATA[<p>亲爱的用户您好，欢迎体验全新的Rollcaller 2.1!<br>
+本次更新内容：</p>
+<h2 id="本次更新内容">本次更新内容</h2>
+<p>Version 2.1解决了上一代出现重复点名的问题，使用新方式点名。<br>
+推荐您进行更新。</p>
+<h2 id="代码">代码</h2>
+<pre><code class="language-python">import tkinter as tk
+import random
+
+def load_names():
+    &quot;&quot;&quot;从文件中加载名字列表&quot;&quot;&quot;
+    try:
+        with open(&quot;names.txt&quot;, &quot;r&quot;) as f:
+            return [line.strip() for line in f]
+    except FileNotFoundError:
+        return []
+
+def show_name():
+    &quot;&quot;&quot;显示一个随机名字&quot;&quot;&quot;
+    global running, names, selected_names, shuffled_names
+
+    if running:
+        if not shuffled_names: # 如果打乱后的名字列表为空，则重新打乱
+            shuffled_names = names[:] # 创建名字列表的副本
+            random.shuffle(shuffled_names) # 打乱名字列表
+        if shuffled_names:
+            name = shuffled_names.pop(0) # 从打乱后的列表中取出第一个名字
+            selected_names.add(name) # 将选中的名字添加到集合中
+            result_label.config(text=name)
+            window.after(120, show_name)
+        else:
+            running = False
+            show_button.config(text=&quot;开始点名&quot;)
+
+def toggle_pause():
+    &quot;&quot;&quot;切换点名状态&quot;&quot;&quot;
+    global running, selected_names, shuffled_names
+
+    running = not running
+    if running:
+        show_button.config(text=&quot;暂停&quot;)
+        selected_names = set()
+        shuffled_names = [] # 重置打乱后的名字列表
+        show_name()
+    else:
+        show_button.config(text=&quot;继续&quot;)
+
+# 初始化
+names = load_names()
+running = False
+selected_names = set()
+shuffled_names = [] # 初始化打乱后的名字列表
+
+# 创建窗口
+window = tk.Tk()
+window.title(&quot;RollCaller&quot;)
+window.geometry(&quot;300x280&quot;)
+
+# 创建标签和按钮
+lucky_label = tk.Label(window, text=&quot;看看是哪个幸运儿:&quot;, font=(&quot;Arial Baltic&quot;, 16))
+lucky_label.pack(pady=(25, 0))
+
+result_label = tk.Label(window, text=&quot;就你了&quot;, font=(&quot;华文行楷&quot;, 48))
+result_label.pack(pady=(30, 0))
+
+a_label = tk.Label(window, text=&quot;========================&quot;, font=(&quot;Arial Baltic&quot;, 16), fg=&quot;orange&quot;)
+a_label.pack(pady=(0, 0))
+
+show_button = tk.Button(window, text=&quot;开始点名&quot;, font=(&quot;Arial Baltic&quot;, 20), command=toggle_pause)
+show_button.pack(pady=(20, 0))
+
+lrm_label = tk.Label(window, text=&quot;By Lumos.R.M.&quot;, font=(&quot;Arial Baltic&quot;, 10), fg=&quot;gray&quot;)
+lrm_label.pack(pady=(7, 0))
+
+# 运行主循环
+window.mainloop()
+</code></pre>
+<blockquote>
+<p>预告：下一版本将加入新的UI界面。<br>
+使用Python编译。</p>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[做个好玩的...]]></title>
+        <id>https://ljy36.github.io/post/pydianda/</id>
+        <link href="https://ljy36.github.io/post/pydianda/">
+        </link>
+        <updated>2025-02-06T23:50:28.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p>用Python手搓了一个东西</p>
+</blockquote>
+<h2 id="一个小exe">一个小exe</h2>
+<p>用Python搓了一个点答器，能够实现点答功能<br>
+单文件直接运行<br>
+目前Version.1，后期添加一些好玩功能（什么时候想到了再加(^ _ ^)）</p>
+<h2 id="代码">代码</h2>
+<pre><code class="language-Python">import tkinter as tk
+import time
+
+def show_names():
+    global running, current_index, selected_name  # 使用全局变量
+
+    running = True  # 设置为运行状态
+    current_index = 0  # 初始化当前索引
+    show_button.config(text=&quot;暂停&quot;) # 修改按钮文字为“暂停”
+    while running: #  循环条件改为 running
+        if current_index &gt;= len(names): #  如果索引超出范围，则重置为0
+            current_index = 0
+        name = names[current_index]
+        result_label.config(text=name)
+        window.update()
+        time.sleep(0.08)
+        current_index += 1
+
+    selected_name = result_label.cget(&quot;text&quot;) # 获取当前选中的名字
+
+def toggle_pause():
+    global running, selected_name, current_index
+
+    running = not running  # 切换运行状态
+    if running:
+        show_button.config(text=&quot;暂停&quot;) # 修改按钮文字为“暂停”
+        show_names() # 继续点名
+    else:
+        show_button.config(text=&quot;继续&quot;) # 修改按钮文字为“开始点名”
+        #  暂停时，停留在当前学生
+        selected_name = result_label.cget(&quot;text&quot;)
+        
+
+def load_names():
+    try:
+        with open(&quot;names.txt&quot;, &quot;r&quot;) as f:
+            for line in f:
+                names.append(line.strip())
+    except FileNotFoundError:
+        pass
+
+names = []
+running = False  # 初始状态为停止
+selected_name = &quot;&quot; # 初始选中名字为空
+current_index = 0 # 当前学生索引
+
+window = tk.Tk()
+window.title(&quot;RollCaller&quot;)
+window.geometry(&quot;300x280&quot;) # 固定窗口大小
+
+lucky_label = tk.Label(window, text=&quot;看看是哪个幸运儿:&quot;, font=(&quot;Arial Baltic&quot;, 16)) # 新增label
+lucky_label.pack(pady=(25, 0)) # 放置在顶部，下方填充0
+
+result_label = tk.Label(window, text=&quot;就你了&quot;, font=(&quot;华文行楷&quot;, 48)) # 修改label文字
+result_label.pack(pady=(30, 0)) # 放置在lucky_label下方
+
+a_label = tk.Label(window, text=&quot;========================&quot;, font=(&quot;Arial Baltic&quot;, 16),fg=&quot;orange&quot;)
+a_label.pack(pady=(0,0))
+
+show_button = tk.Button(window, text=&quot;开始点名&quot;, font=(&quot;Arial Baltic&quot;, 20),command=toggle_pause) # command绑定toggle_pause
+show_button.pack(pady=(20, 0))
+
+lrm_label = tk.Label(window, text=&quot;                             By Lumos.R.M.&quot;, font=(&quot;Arial Baltic&quot;, 10),fg=&quot;gray&quot;)
+lrm_label.pack(pady=(7,0))
+
+
+load_names()
+
+window.mainloop()
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hello World!]]></title>
+        <id>https://ljy36.github.io/post/helloworld/</id>
+        <link href="https://ljy36.github.io/post/helloworld/">
+        </link>
+        <updated>2025-02-02T14:21:23.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p>我的首个博客，2025.02.02正式运行，基于Github Pages。</p>
+</blockquote>
+<h2 id="地址">地址</h2>
+<p>博客主页：<a href="https://lrm.us.kg">https://lrm.us.kg</a><br>
+我的代理：<a href="https://x.lrm.us.kg/lrm245">https://x.lrm.us.kg/lrm245</a></p>
+<h2 id="联系方式">联系方式</h2>
+<p>请转到<u>“关于”</u>页面。</p>
+<h2 id="其他">其他</h2>
+<p>别问我怎么搞的，<u>自己查</u>。<br>
+<code>print(&quot;Hello World!&quot;)</code></p>
+]]></content>
+    </entry>
+</feed>
